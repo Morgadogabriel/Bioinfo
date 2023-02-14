@@ -8,31 +8,36 @@
 
 #sequencia da proteina sem o n-terminal, portanto sem o ATG
 
-obpSeq = '''CAAGAAGTGAATGAAGAATTATGGGGAAAAGCAGAAAAGAAATGCCAACAACTTTCCAAATTGAGTTCAATTGAAAGAGCATCAATTCTTACAAGTTTAGGGAACATATCTCGTACAGCTAAGTGTTATGTAAATTGTTNNNNTGAAGAAGTTGGATTGATGATTGGAGCAGCTGTAAATAGTACATTGTTGCATTCATGGTTGAAGGAAGAAGCTGAAATTTCAGAAAACAAAGAAGAATTATATAACAGAATTAAAACCTGTGTTGATGCAATTACAGTTGAAGATAAATGTGATAAAGCTTATGAACTGTATATTTGCTTCGAAAATAGATAG'''
 def primersEnd(seq,ini = 20,end = 20):
     contGC = 0
     contAT = 0
     contATrev = 0
     contGCrev = 0
-
+#inicia os contadores de GC, AT, para a sequencia senso e anti senso.
     AT = ['A','T']
     GC = ['G','C']
 
     for i in seq[0:ini].upper():
         if i in AT:
             contAT += 1
+#Para cada A ou T na sua string, o loop irá adicionar 1 ponto no contador de AT iniciado anteriormente.
         if i in GC:
             contGC += 1
-
+#Para cada G ou C na sua string, este loop irá adicionar 1 ponto nos contadores de GC iniciados anteriormente.
     print(f'A quantidade de AT é {contAT} || a quantidade de GC é {contGC} || O TM é {contGC * 4+ contAT*2} || % de GC é {contGC/ini}')
+#printa as quantidades para o usuário, mostrando a porcentagem de GC e a TM (GC*4 + AC*2).
 
-    primerFW = seq[0:ini]
+    primerFW = seq[0:ini].upper()
+#grava o primer Foward em uma variavel (primerFW) do primeiro elemento até o elemento colocado pelo usuário na função. obs: o default é 25.
     print(f'{primerFW}, {len(primerFW)} bases')
+#mostra a sequencia do primer e o seu comprimento.
 
     revOBP = seq[::-1].upper()
-
+#grava a sequencia reversa em na variavel revOBP
     listComplementObp = []
+#inicia uma lista para adição dos complementos da sequencia de DNA
     revComplementOBP = ''
+#inicia uma string vazia para junção dos elementos que estão na lista acima.
     for c in revOBP.upper():
         if c == 'A':
             listComplementObp.append('T')
@@ -42,19 +47,24 @@ def primersEnd(seq,ini = 20,end = 20):
             listComplementObp.append('C')
         if c == 'C':
             listComplementObp.append('G')
+#laço realizado para formação da string complementar ao reverso da sequencia adicionada na função.
 
     revComplementOBP = revComplementOBP.join(listComplementObp)
+#junção dos elementos da lista na string.
 
     for c in revComplementOBP[0:end].upper():
         if c in AT:
             contATrev += 1
         if c in GC:
             contGCrev += 1
+#contagem de GC e AT do reverso complementar.
 
     print(f'A quantidade de AT é {contATrev} || a quantidade de GC é {contGCrev} || O TM é {contGCrev * 4+ contATrev*2} || % de GC é {contGCrev/end}')
+#print para mostrar o resultado ao usuário. (tm e %gc)
 
     primerREV = revComplementOBP[0:end]
     print(f'{primerREV}, {len(primerREV)} bases')
+#printa o primer anti senso e o comprimento do mesmo.
 
 def complement(seq):
     listComplementSeq = []
@@ -68,6 +78,7 @@ def complement(seq):
         if c == 'C':
             listComplementSeq.append('G')
     return (''.join(listComplementSeq))
+#função que retorna a sequencia complemento
 
 def contGC(seq):
     cont = 0
@@ -80,6 +91,7 @@ def contGC(seq):
             contGC += 1
         if contGC/cont >= 0.4:
             print(f'O primer de {cont} Bases tem {contGC/cont} de GC ')
+#função que mostra a % de GC
 
 def GC(seq):
     cont = 0
@@ -91,6 +103,7 @@ def GC(seq):
         if i in GC:
             contGC += 1
     return contGC
+#função que retorna a quantidade de GC
 
 def automaticPrimerDesigner(seq = '', comprimentoMinimo = 18,comprimentoMaximo = 28):
     seq = seq.upper().strip()
@@ -201,57 +214,3 @@ def TM(primer):
             if not (i in elementosAceitosIntegros):
                 print(f'Sua sequencia possui um elemento diferente de {elementosAceitosIntegros}, substitua em {counter}')'''
 
-
-
-
-
-seqOBPPepSinal = 'ATGTGTAAATTAGTGATTTTACTCACTGTTTTTGTTCTGCAGATGTATTTAATTTCTGCCCAAGAAGTGAATGAAGAATTATGGGGAAAAGCAGAAAAGAAATGCCAACAACTTTCCAAATTGAGTTCAATTGAAAGAGCATCAATTCTTACAAGTTTAGGGAACATATCTCGTACAGCTAAGTGTTATGTAAATTGTTNNNNTGAAGAAGTTGGATTGATGATTGGAGCAGCTGTAAATAGTACATTGTTGCATTCATGGTTGAAGGAAGAAGCTGAAATTTCAGAAAACAAAGAAGAATTATATAACAGAATTAAAACCTGTGTTGATGCAATTACAGTTGAAGATAAATGTGATAAAGCTTATGAACTGTATATTTGCTTCGAAAATAGATAG'
-seqOBP = 'CAAGAAGTGAATGAAGAATTATGGGGAAAAGCAGAAAAGAAATGCCAACAACTTTCCAAATTGAGTTCAATTGAAAGAGCATCAATTCTTACAAGTTTAGGGAACATATCTCGTACAGCTAAGTGTTATGTAAATTGTTNNNNTGAAGAAGTTGGATTGATGATTGGAGCAGCTGTAAATAGTACATTGTTGCATTCATGGTTGAAGGAAGAAGCTGAAATTTCAGAAAACAAAGAAGAATTATATAACAGAATTAAAACCTGTGTTGATGCAATTACAGTTGAAGATAAATGTGATAAAGCTTATGAACTGTATATTTGCTTCGAAAATAGATAG'
-seqOBPOtimizada = 'CAAGAGGTGAATGAAGAACTGTGGGGTAAAGCAGAGAAAAAATGTCAGCAGCTGAGCAAACTGAGCAGCATTGAACGTGCAAGCATTCTGACCAGCCTGGGTAATATCAGCCGTACCGCAAAATGTTATGTTAATTGTGCAACCGAAGAGGTGGGTCTGATGATTGGTGCAGCAGTTAATAGCACCCTGCTGCATAGCTGGCTGAAAGAAGAAGCAGAAATTAGCGAAAACAAAGAGGAACTGTACAACCGCATTAAAACCTGTGTTGATGCAATTACCGTGGAAGATAAATGCGATAAAGCCTACGAACTGTATATCTGCTTTGAAAACCGTTAA'
-seqTrypsPepSinal = 'ATGAGAACAATATATAGCATAGCAATCGCTTTATTGCTTGGAAAAATTTGGGTAAATCCTCAAAGTTATGTTAACATAAAATCTGAAGAAATAGATTTAACTCAACAAGAACAAAAATATGGAGAAAAAGTAACAAATTGTTCTTGTGGCTGGACTAACAAGGCAAGAATTGTTGGTGGACGTGAAACCTTGAAAAATGAATTTCCATTAATGGCCGGAATTATAGATATGGAAAAGAAATTTTTATTCTGTGGTGCAACAATAGTAACCCAAAATCACGCAATAACAGCATCCCATTGTACCACACCAAATAAAAAAAAGAAATTAGGCCTAGTAGTTGGTGCTCATGATGTTACTAAACCTGATGAAAAGGCAGACGTTGTTGAAATTAAAGAAACAGTAGAACATGAAAATTATAGTTCTAAATCTTATCATAACGATGTTGCCTTGTTGGTTCTTTCAAGATCAATCAAGTTCACCCAAGAAGTTGGTCCAGCTTGTCTGCCTACTGGCAAAGCTGATTTGGTTAATGAATACATCAAAGTACTTGGTTGGGGAAGATTGAAAACTAAAGGAAAAACATCTTCAGTTCTGATGAAAGTTAATTTAAGGGTAATTTCAATTAAAGAGTGTGCTAAAAATTATTTAAAGAAAATACCAACTGATTCTCCAAACCAACTTTGTACTTATGGACATGAAAAGGATTCTTGTCAGGTCAGTATAATAGTTTTCTAA'
-seqTrypsOtimizada = 'AAATATTCCGGATTATTCATACCGTCCCACCATCGGGCGCGGATCCATGAGAACAATATATAGCATAGCAATCGCTTTATTGCTTGGAAAAATTTGGGTAAATCCTCAAAGTTATGTTAACATAAAATCTGAAGAAATAGATTTAACTCAACAAGAACAAAAATATGGAGAAAAAGTAACAAATTGTTCTTGTGGCTGGACTAACAAGGCAAGAATTGTTGGTGGACGTGAAACCTTGAAAAATGAATTTCCATTAATGGCCGGAATTATAGATATGGAAAAGAAATTTTTATTCTGTGGTGCAACAATAGTAACCCAAAATCACGCAATAACAGCATCCCATTGTACCACACCAAATAAAAAAAAGAAATTAGGCCTAGTAGTTGGTGCTCATGATGTTACTAAACCTGATGAAAAGGCAGACGTTGTTGAAATTAAAGAAACAGTAGAACATGAAAATTATAGTTCTAAATCTTATCATAACGATGTTGCCTTGTTGGTTCTTTCAAGATCAATCAAGTTCACCCAAGAAGTTGGTCCAGCTTGTCTGCCTACTGGCAAAGCTGATTTGGTTAATGAATACATCAAAGTACTTGGTTGGGGAAGATTGAAAACTAAAGGAAAAACATCTTCAGTTCTGATGAAAGTTAATTTAAGGGTAATTTCAATTAAAGAGTGTGCTAAAAATTATTTAAAGAAAATACCAACTGATTCTCCAAACCAACTTTGTACTTATGGACATGAAAAGGATTCTTGTCAGGTCAGTATAATAGTTTTCCACCACCACCACCACCACCACCACGACTACAAAGACGATGACGACAAGTAAGGTACCAAGCTTGTCGAGAAGTACTAGAGGATCATAATCAGCCATA'
-realTrypsin = 'ATGAGAACAATATATAGCATAGCAATCGCTTTATTGCTTGGAAAAATTTGGGTAAATCCTCAAAGTTATGTTAACATAAAATCTGAAGAAATAGATTTAACTCAACAAGAACAAAAATATGGAGAAAAAGTAACAAATTGTTCTTGTGGCTGGACTAACAAGGCAAGAATTGTTGGTGGACGTGAAACCTTGAAAAATGAATTTCCATTAATGGCCGGAATTATAGATATGGAAAAGAAATTTTTATTCTGTGGTGCAACAATAGTAACCCAAAATCACGCAATAACAGCATCCCATTGTACCACACCAAATAAAAAAAAGAAATTAGGCCTAGTAGTTGGTGCTCATGATGTTACTAAACCTGATGAAAAGGCAGACGTTGTTGAAATTAAAGAAACAGTAGAACATGAAAATTATAGTTCTAAATCTTATCATAACGATGTTGCCTTGTTGGTTCTTTCAAGATCAATCAAGTTCACCCAAGAAGTTGGTCCAGCTTGTCTGCCTACTGGCAAAGCTGATTTGGTTAATGAATACATCAAAGTACTTGGTTGGGGAAGATTGAAAACTAAAGGAAAAACATCTTCAGTTCTGATGAAAGTTAATTTAAGGGTAATTTCAATTAAAGAGTGTGCTAAAAATTATTTAAAGAAAATACCAACTGATTCTCCAAACCAACTTTGTACTTATGGACATGAAAAGGATTCTTGTCAGGTCAGTATAATAGTTTTCC'
-SeqSemPepSinalTrypsina = 'aatcctcaaagttatgttaacataaaatctgaagaaatagatttaactcaacaagaacaaaaatatggagaaaaagtaacaaattgttcttgtggctggactaacaaggcaagaattgttggtggacgtgaaaccttgaaaaatgaatttccattaatggccggaattatagatatggaaaagaaatttttattctgtggtgcaacaatagtaacccaaaatcacgcaataacagcatcccattgtaccacaccaaataaaaaaaagaaattaggcctagtagttggtgctcatgatgttactaaacctgatgaaaaggcagacgttgttgaaattaaagaaacagtagaacatgaaaattatagttctaaatcttatcataacgatgttgccttgttggttctttcaagatcaatcaagttcacccaagaagttggtccagcttgtctgcctactggcaaagctgatttggttaatgaatacatcaaagtacttggttggggaagattgaaaactaaaggaaaaacatcttcagttctgatgaaagttaatttaagggtaatttcaattaaagagtgtgctaaaaattatttaaagaaaataccaactgattctccaaaccaactttgtacttatggacatgaaaaggattcttgtcaggtcagtataatagttttcc'
-y = seqTrypsPepSinal
-l = seqOBPPepSinal
-m = seqOBP
-z = seqOBPOtimizada
-x = seqTrypsOtimizada
-primerREVOver = 'GATGGTGGTGGGTAC'
-primerFWOver = 'GACGCTGGCGCCTCT'
-seqaaa = 'GGTGATGGTGGTGGGTAC'
-ooo = 'aatcctcaaagttatgttaacataaaatctgaagaaatagatttaactcaacaagaacaaaaatatggagaaaaagtaacaaattgttcttgtggctggactaacaaggcaagaattgttggtggacgtgaaaccttgaaaaatgaatttccattaatggccggaattatagatatggaaaagaaatttttattctgtggtgcaacaatagtaacccaaaatcacgcaataacagcatcccattgtaccacaccaaataaaaaaaagaaattaggcctagtagttggtgctcatgatgttactaaacctgatgaaaaggcagacgttgttgaaattaaagaaacagtagaacatgaaaattatagttctaaatcttatcataacgatgttgccttgttggttctttcaagatcaatcaagttcacccaagaagttggtccagcttgtctgcctactggcaaagctgatttggttaatgaatacatcaaagtacttggttggggaagattgaaaactaaaggaaaaacatcttcagttctgatgaaagttaatttaagggtaatttcaattaaagagtgtgctaaaaattatttaaagaaaataccaactgattctccaaaccaactttgtacttatggacatgaaaaggattcttgtcaggtcagtataatagttttcc'
-
-
-'''
-where60(z)
-where60(complement(z)[::-1])
-primersEnd(z, 23,26)'''
-automaticPrimerDesigner(ooo)
-
-
-
-
-''''''
-
-'''
-revSeq = ooo[::-1]
-print('-'*50)
-print('Contando a % de GC da sequência do primerFW'.center(50))
-print('-'*50)
-contGC(ooo)
-print('-'*50)
-print('Contando a % de GC da sequência do primerREV'.center(50))
-print('-'*50)
-contGC(complement(revSeq))
-print('-'*50)
-print('Dados dos primers FW e REV'.center(50))
-print('-'*50)
-primersEnd(ooo,29,27)
-'''
-
-print(GC('ggaaaactattatactgacctgacaag'.upper()), GC('ggaaaactattatactgacctgacaag')/len('ggaaaactattatactgacctgacaag'))
-
-
-TM('ggaaaactattatactgacctgacaag'.upper())
-'''CTAGTGGTGGTGATGGTGGTGGGTACggaaaactattatactgacctgacaagaatccttt'''
