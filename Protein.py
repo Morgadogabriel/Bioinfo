@@ -66,5 +66,6 @@ def translate_to_protein(mrna_sequence):
                 codon_index += 3
 
         protein_sequences.append(protein_sequence)
+        print(protein_sequence)
 
     return protein_sequences

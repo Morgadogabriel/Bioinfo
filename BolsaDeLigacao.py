@@ -70,15 +70,16 @@ def obtemSitioLigacao(molecula,cadeia,limiar = 4):
 
 def gravarBolsa(arquivo, estrutura, aminoacidos):
     with open(arquivo, 'a') as file:
-        file.write(f'{estrutura} {aminoacidos}\n')
+        file.write(f'{estrutura}={aminoacidos}\n')
+for i in range(5):
+    linhas = lerArquivo(f'DockingsClusterizacao\DockingsDM2\C{i+1}D2-2qeb.pdb')
+    imprimeArquivo(linhas)
+    obtemCadeia("A", linhas)
+    cadeia = obtemCadeia('A', linhas)
+    molecula = obtemMolecula("LIG", linhas)
+    print(obtemSitioLigacao(molecula,cadeia,4))
 
-#linhas = lerArquivo('Estruturas/c6_6v4c.pdb')
-#imprimeArquivo(linhas)
-#obtemCadeia("A", linhas)
-#cadeia = obtemCadeia('A', linhas)
-#molecula = obtemMolecula("LIG", linhas)
-#print(obtemSitioLigacao(molecula,cadeia,4))
+    gravarBolsa('DockingsClusterizacao\D2_2qeb.txt', f'C{i+1}D2_2qeb', obtemSitioLigacao(molecula,cadeia,4))
 
-#gravarBolsa('Estruturas/AAdosPockets.txt', 'C6_6v4c', obtemSitioLigacao(molecula,cadeia,4))
 
-def contarAminoacidos()
+#def contarAminoacidos()
